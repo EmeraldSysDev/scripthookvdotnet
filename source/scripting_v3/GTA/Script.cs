@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2015 crosire & contributors
+// Copyright (C) 2015 crosire & contributors; 2022 Ryan Omasta
 // License: https://github.com/crosire/scripthookvdotnet#license
 //
 
@@ -309,6 +309,24 @@ namespace GTA
 			task.script.Start();
 
 			return (T)task.script.ScriptInstance;
+		}
+
+		/// <summary>
+		/// Spawns a new <see cref="Script"/> instance of the specified <paramref name="type"/>.
+		/// </summary>
+		public static object InstantiateScript(Type type)
+		{
+			var task = new InstantiateScriptTask { type = type };
+			SHVDN.ScriptDomain.CurrentDomain.ExecuteTask(task);
+
+			if (task.script == null)
+			{
+				return null;
+			}
+
+			task.script.Start();
+
+			return task.script.ScriptInstance;
 		}
 	}
 }
